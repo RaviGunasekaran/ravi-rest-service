@@ -18,11 +18,11 @@ These are URI for test<BR>
 
 GET =>  http://localhost:8086/rest/employee/dummy<BR>
 GET =>  http://localhost:8086/rest/employee/get/all<BR>
-POST =>  http://localhost:8086/rest/employee/create<BR>
+POST =>  http://localhost:8086/rest/employee/create<br>
 
-Payload for POST<BR>
-<BR>
-{
+Payload for POST<br>
+<br>
+<br>{
     "employeeFirstName": "TESTER",
     "employeeLastName": "API",
     "departmentName": "IT",
@@ -34,7 +34,7 @@ Payload for POST<BR>
     ],
     "createdDate": null,
     "id": 1
-}
+}<br>
 <BR>
 GET =>  http://localhost:8086/rest/employee/get/id/2<BR>
 DELETE =>  http://localhost:8086/rest/employee/delete/id/2<BR>
