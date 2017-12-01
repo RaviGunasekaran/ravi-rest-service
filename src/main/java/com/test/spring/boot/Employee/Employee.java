@@ -1,6 +1,8 @@
 package com.test.spring.boot.Employee;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.DateSerializer;
@@ -15,6 +17,17 @@ public class Employee {
 	int[] contactNumbers;
 	private Date createdDate;
 	
+	public HashMap<String, String> getEmployeeInfo() {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("ID", String.valueOf(getId()));
+		map.put("EmployeeFirstName:", getEmployeeFirstName());
+		map.put("Employee Last Name: ", getEmployeeLastName());
+		map.put("Department Name", String.valueOf(getDepartmentName()));
+		map.put("Employee Address", String.valueOf(getEmpAddress()));
+		map.put("Salary", String.valueOf(getSalary()));
+		map.put("ContactNumbers", String.valueOf(getContactNumbers()));
+		return (HashMap<String, String>) map;
+	}
 	
 	public String getEmployeeFirstName() {
 		return employeeFirstName;
