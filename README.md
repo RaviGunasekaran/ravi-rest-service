@@ -43,13 +43,13 @@ DELETE =>  http://localhost:8086/rest/employee/delete/id/2
 WORKING REQUESTS:
 <P>
     
-http://localhost:8085/greeting
-http://localhost:8085/rest/employee/dummy
-http://localhost:8085/rest/employee/create
-http://localhost:8085/rest/employee/get/all
-http://localhost:8085/rest/employee/get/id/1
-http://localhost:8085/rest/employee/get/name/TESTER
-http://localhost:8085/rest/employee/delete/id/0
+http://localhost:8085/greeting <BR>
+http://localhost:8085/rest/employee/dummy<BR>
+http://localhost:8085/rest/employee/create<BR>
+http://localhost:8085/rest/employee/get/all<BR>
+http://localhost:8085/rest/employee/get/id/1<BR>
+http://localhost:8085/rest/employee/get/name/TESTER<BR>
+http://localhost:8085/rest/employee/delete/id/0<BR>
 http://localhost:8085/rest/employee/delete/name/API
 
 </P>
