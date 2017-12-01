@@ -1,26 +1,27 @@
 # ravi-rest-service
 
-This is Test - Rest WebSerive.
-You can do GET / POST /DELETE using this service
+<p>
+This is Test - Rest WebSerive.<BR>
+You can do GET / POST /DELETE using this service<BR>
 
-Clone this Repo and goto repo path
-and 
-Run - mvn clean package
-Then
-You will get employee-rest-service-1.0.0.jar inside /target folder.
-Start your web service by running this - java -jar target/employee-rest-service-1.0.0.jar --server.port=8086
+Clone this Repo and goto repo path<BR>
+and <BR>
+Run - mvn clean package<BR>
+Then<BR>
+You will get employee-rest-service-1.0.0.jar inside /target folder.<BR>
+Start your web service by running this - java -jar target/employee-rest-service-1.0.0.jar --server.port=8086<BR>
 Then Access 
-1. http://localhost:8086/greeting => This is Simple API
-2. http://localhost:8086/rest/employee/get/all => Employee API
+1. http://localhost:8086/greeting => This is Simple API<BR>
+2. http://localhost:8086/rest/employee/get/all => Employee API<BR>
 
-These are URI for test
+These are URI for test<BR>
 
-GET =>  http://localhost:8086/rest/employee/dummy
-GET =>  http://localhost:8086/rest/employee/get/all
-POST =>  http://localhost:8086/rest/employee/create
+GET =>  http://localhost:8086/rest/employee/dummy<BR>
+GET =>  http://localhost:8086/rest/employee/get/all<BR>
+POST =>  http://localhost:8086/rest/employee/create<BR>
 
-Payload for POST
-
+Payload for POST<BR>
+<BR>
 {
     "employeeFirstName": "TESTER",
     "employeeLastName": "API",
@@ -34,10 +35,10 @@ Payload for POST
     "createdDate": null,
     "id": 1
 }
-
-GET =>  http://localhost:8086/rest/employee/get/id/2
-DELETE =>  http://localhost:8086/rest/employee/delete/id/2
-
+<BR>
+GET =>  http://localhost:8086/rest/employee/get/id/2<BR>
+DELETE =>  http://localhost:8086/rest/employee/delete/id/2<BR>
+</p>
 
 
 WORKING REQUESTS:
