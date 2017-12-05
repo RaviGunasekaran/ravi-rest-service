@@ -6,14 +6,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -108,36 +107,55 @@ public class EmployeeController {
 	
 	// This Request Will DELETE_EMPLOYEE_BY_NAME
 	@RequestMapping(value = EmployeeRestURIConstants.DELETE_EMPLOYEE_BY_LASTNAME, method = RequestMethod.DELETE)
-	public @ResponseBody Employee deleteEmployeeByLastName(@PathVariable("employeeLastName") String employeeLastName) {
+	public @ResponseBody String deleteEmployeeByLastName(@PathVariable("employeeLastName") String employeeLastName) {
+		
+		// If employeeLastName is Null, return proper error message
+	       if (employeeLastName == null) {
+	            logger.error("Unable to delete. User with LastName {} not found.", employeeLastName);
+	            logger.info("Custom Error Message : " +HttpStatus.NOT_FOUND);
+	        }
+	       
 		logger.info("DELETE_EMPLOYEE_BY_NAME.... Please wait...");
-		Employee data = new Employee();
-		Collection<Entry<Integer, Employee>> k = employeeData.entrySet();
-		logger.info("Created Entry Set...");
-		for (Iterator<Entry<Integer, Employee>> iterator = k.iterator(); iterator.hasNext();) {
-			logger.info("Inside For Loop...");
-			Entry<Integer, Employee> entry = (Entry<Integer, Employee>) iterator.next();
-			System.out.println("Current Entry : " + entry);
-			System.out.println("Current Entry Values : " + entry.getValue());
-			if (entry.getValue().getEmployeeLastName().equalsIgnoreCase(employeeLastName)) {
-				System.out.println("Got You!!! = " + employeeLastName);
-				System.out.println("Your Values" + entry.getValue());
-				data = entry.getValue();
-				logger.info("Collected Data!!!...");
-				data = employeeData.remove(employeeLastName);
-				logger.info(" $$$ Removed Employee By LastName !!!...");
-			}
-		}
-		return data;
-	}
+		// Get the ID of Employee
+		Integer datafound = null;
+		// Get the entrySet and Iterate over values which matches employeeLastName
+		for (Map.Entry<Integer, Employee> entry : employeeData.entrySet())			
+		{
+		    if(entry.getValue().getEmployeeLastName().equals(employeeLastName)){
+		    	datafound = entry.getKey();
+		    	break;
+		    }
+		}		
+		logger.info("Key found for " + employeeLastName + " Key is : " + datafound);
+		// Remove the ID which matches employeeLastName value from employeeData
+		employeeData.remove(datafound);
+		logger.info("Deleting " + employeeLastName + " - From Employee Data");
+		return  "DELETE Success : " +employeeLastName + " : Data Deleted!!!";
+		 }
 	
 	// This Request Will PUT_EMPLOYEE_BY_ID
-	// @RequestMapping(value=EmployeeRestURIConstants.PUT_EMPLOYEE_BY_ID,
-	// method=RequestMethod.PUT)
-	// public @ResponseBody Employee putEmployeeByID(@PathVariable("id") int
-	// empid) {
-	// logger.info("PUT_EMPLOYEE_BY_ID.... Please wait...");
-	// Employee emp = employeeData.get(empid);
-	// employeeData.remove(empid);
-	// return emp;
-	// }
+	 @RequestMapping(value=EmployeeRestURIConstants.PUT_EMPLOYEE_BY_ID, method=RequestMethod.PUT)
+	 public @ResponseBody String putEmployeeByID(@PathVariable("id") int empid, Employee employee) {
+	 logger.info("PUT_EMPLOYEE_BY_ID.... Please wait...");
+
+	 	// Get the ID of Employee
+		Integer datafound = null;
+		
+		// Get the entrySet and Iterate over values which matches employeeLastName
+		for (Map.Entry<Integer, Employee> entry : employeeData.entrySet())			
+		{
+		    if(entry.getValue().getEmployeeLastName().equals(empid)){
+		    	datafound = entry.getKey();
+		    	employeeData.put(empid, employee);
+		    	break;
+		    }
+		}		
+		logger.info("Key found for " + empid + " Key is : " + datafound);
+		
+		// Update the employeeData with new data
+		logger.info("Updated " + empid + " - With New Employee Data");
+		return  "PUT Success : " +empid + " : Data UPDATED!!!";
+
+	 }
+	
 }
