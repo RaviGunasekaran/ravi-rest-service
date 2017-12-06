@@ -78,7 +78,7 @@ public class EmployeeController {
 	public @ResponseBody Employee getEmployeeByName(@PathVariable("firstname") String firstname) {
 		logger.info("GET_EMPLOYEE_BY_NAME.... Please wait...");
 		Employee data = new Employee();
-		logger.info("Data - Initialized.... "+data.getEmployeeInfo());
+		logger.info("Data - Initialized.... " + data.getEmployeeInfo());
 		Collection<Entry<Integer, Employee>> k = employeeData.entrySet();
 		logger.info("Created Entry Set...");
 		for (Iterator<Entry<Integer, Employee>> iterator = k.iterator(); iterator.hasNext();) {
@@ -95,7 +95,6 @@ public class EmployeeController {
 		}
 		return data;
 	}
-	
 
 	// This Request Will DELETE_EMPLOYEE_BY_ID
 	@RequestMapping(value = EmployeeRestURIConstants.DELETE_EMPLOYEE_BY_ID, method = RequestMethod.DELETE)
@@ -104,58 +103,67 @@ public class EmployeeController {
 		System.out.println("Result = " + employeeData.get(id));
 		return employeeData.remove(id);
 	}
-	
+
 	// This Request Will DELETE_EMPLOYEE_BY_NAME
 	@RequestMapping(value = EmployeeRestURIConstants.DELETE_EMPLOYEE_BY_LASTNAME, method = RequestMethod.DELETE)
 	public @ResponseBody String deleteEmployeeByLastName(@PathVariable("employeeLastName") String employeeLastName) {
-		
+
 		// If employeeLastName is Null, return proper error message
-	       if (employeeLastName == null) {
-	            logger.error("Unable to delete. User with LastName {} not found.", employeeLastName);
-	            logger.info("Custom Error Message : " +HttpStatus.NOT_FOUND);
-	        }
-	       
+		if (employeeLastName == null) {
+			logger.error("Unable to delete. User with LastName {} not found.", employeeLastName);
+			logger.info("Custom Error Message : " + HttpStatus.NOT_FOUND);
+		}
+
 		logger.info("DELETE_EMPLOYEE_BY_NAME.... Please wait...");
 		// Get the ID of Employee
 		Integer datafound = null;
-		// Get the entrySet and Iterate over values which matches employeeLastName
-		for (Map.Entry<Integer, Employee> entry : employeeData.entrySet())			
-		{
-		    if(entry.getValue().getEmployeeLastName().equals(employeeLastName)){
-		    	datafound = entry.getKey();
-		    	break;
-		    }
-		}		
+		// Get the entrySet and Iterate over values which matches
+		// employeeLastName
+		for (Map.Entry<Integer, Employee> entry : employeeData.entrySet()) {
+			if (entry.getValue().getEmployeeLastName().equals(employeeLastName)) {
+				datafound = entry.getKey();
+				break;
+			}
+		}
 		logger.info("Key found for " + employeeLastName + " Key is : " + datafound);
 		// Remove the ID which matches employeeLastName value from employeeData
 		employeeData.remove(datafound);
 		logger.info("Deleting " + employeeLastName + " - From Employee Data");
-		return  "DELETE Success : " +employeeLastName + " : Data Deleted!!!";
-		 }
-	
-	// This Request Will PUT_EMPLOYEE_BY_ID
-	 @RequestMapping(value=EmployeeRestURIConstants.PUT_EMPLOYEE_BY_ID, method=RequestMethod.PUT)
-	 public @ResponseBody String putEmployeeByID(@PathVariable("id") int empid, Employee employee) {
-	 logger.info("PUT_EMPLOYEE_BY_ID.... Please wait...");
+		return "DELETE Success : " + employeeLastName + " : Data Deleted!!!";
+	}
 
-	 	// Get the ID of Employee
+	// This Request Will PUT_EMPLOYEE_BY_ID
+	@RequestMapping(value = EmployeeRestURIConstants.PUT_EMPLOYEE_BY_ID, method = RequestMethod.PUT)
+	public @ResponseBody String putEmployeeByID(@PathVariable("id") int empid, @RequestBody Employee employee) {
+		logger.info("PUT_EMPLOYEE_BY_ID.... Please wait...");
+
+		// Get Data from Payload and set to EMPLOYEE
+		employee.setEmployeeFirstName(employee.getEmployeeFirstName());
+		employee.setEmployeeLastName(employee.getEmployeeLastName());
+		employee.setDepartmentName(employee.getDepartmentName());
+		employee.setEmpAddress(employee.getEmpAddress());
+		employee.setSalary(employee.getSalary());
+		employee.setContactNumbers(employee.getContactNumbers());
+		employee.setCreatedDate(new Date());
+
+		// Get the ID of Employee
 		Integer datafound = null;
-		
-		// Get the entrySet and Iterate over values which matches employeeLastName
-		for (Map.Entry<Integer, Employee> entry : employeeData.entrySet())			
-		{
-		    if(entry.getValue().getEmployeeLastName().equals(empid)){
-		    	datafound = entry.getKey();
-		    	employeeData.put(empid, employee);
-		    	break;
-		    }
-		}		
-		logger.info("Key found for " + empid + " Key is : " + datafound);
-		
+
+		// Get the entrySet and Iterate over values which matches
+		// employeeLastName
+		for (Map.Entry<Integer, Employee> entry : employeeData.entrySet()) {
+			if (entry.getValue().getId() == (empid)) {
+				datafound = entry.getKey();
+				employeeData.put(datafound, employee);
+				break;
+			}
+		}
+		logger.info("Key found for Employee-ID :" + empid + " and Key is : " + datafound);
+
 		// Update the employeeData with new data
 		logger.info("Updated " + empid + " - With New Employee Data");
-		return  "PUT Success : " +empid + " : Data UPDATED!!!";
+		return "PUT Success : " + empid + " : Data UPDATED!!!";
 
-	 }
-	
+	}
+
 }
