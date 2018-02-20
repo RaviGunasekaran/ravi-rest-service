@@ -10,6 +10,7 @@ public class EmployeeRestURIConstants {
 	public static final String DELETE_EMPLOYEE_BY_ID = "/rest/employee/delete/id/{id}";
 	public static final String DELETE_EMPLOYEE_BY_LASTNAME = "/rest/employee/delete/name/{employeeLastName}";
 	public static final String PUT_EMPLOYEE_BY_ID = "/rest/employee/put/{id}";
+	public static final String GET_MATCH_EMPLOYEES= "/rest/employee/get/match/{id}";
 //	public static final String PATCH_EMPLOYEE = "/rest/employee/patch/{id}";
 //	public static final String OPTIONS_EMPLOYEE = "/rest/employee/options/{id}";
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -43,7 +44,8 @@ public class EmployeeController {
 	}
 
 	// This Request Will Create New User
-	@RequestMapping(value = EmployeeRestURIConstants.CREATE_NEW_EMPLOYEE, method = RequestMethod.POST)
+	
+	@RequestMapping(value = EmployeeRestURIConstants.CREATE_NEW_EMPLOYEE, method = RequestMethod.GET)
 	public @ResponseBody Employee createEmployee(@RequestBody Employee employee) {
 		logger.info("Started Create Employee Call...");
 		employee.setEmployeeFirstName(employee.getEmployeeFirstName());
@@ -54,7 +56,7 @@ public class EmployeeController {
 		employee.setContactNumbers(employee.getContactNumbers());
 		employee.setCreatedDate(new Date());
 		employeeData.put(employee.getId(), employee);
-		logger.info(" ==== Employee Creation Success ===");
+		System.out.println("HttpStatus :"+ HttpStatus.CREATED);
 		return employee;
 	}
 
@@ -69,8 +71,12 @@ public class EmployeeController {
 	@RequestMapping(value = EmployeeRestURIConstants.GET_EMPLOYEE_BY_ID, method = RequestMethod.GET)
 	public @ResponseBody Employee getEmployeeByID(@PathVariable("id") int id) {
 		logger.info("GET_EMPLOYEE_BY_ID.... Please wait...");
+		
 		System.out.println("Result = " + employeeData.get(id));
-		return employeeData.get(id);
+		Employee employee = employeeData.get(id);
+		if(employee==null)
+			System.out.println("HttpStatus :"+ HttpStatus.NO_CONTENT);
+		return employee;
 	}
 
 	// This Request Will GET_EMPLOYEE_BY_NAME
@@ -131,7 +137,8 @@ public class EmployeeController {
 		logger.info("Deleting " + employeeLastName + " - From Employee Data");
 		return "DELETE Success : " + employeeLastName + " : Data Deleted!!!";
 	}
-
+	
+	
 	// This Request Will PUT_EMPLOYEE_BY_ID
 	@RequestMapping(value = EmployeeRestURIConstants.PUT_EMPLOYEE_BY_ID, method = RequestMethod.PUT)
 	public @ResponseBody String putEmployeeByID(@PathVariable("id") int empid, @RequestBody Employee employee) {
@@ -163,7 +170,31 @@ public class EmployeeController {
 		// Update the employeeData with new data
 		logger.info("Updated " + empid + " - With New Employee Data");
 		return "PUT Success : " + empid + " : Data UPDATED!!!";
-
 	}
+
+	
+	@RequestMapping(value = EmployeeRestURIConstants.GET_MATCH_EMPLOYEES, method = RequestMethod.GET)
+	public @ResponseBody Map<Integer, Employee> getEmployees(@PathVariable("id") int id) {
+		logger.info("GET ALL MATCHING EMPLOYEES.... Please wait...");
+		Collection<Entry<Integer, Employee>> k = employeeData.entrySet();
+		logger.info("Created Entry Set...");
+		Map<Integer, Employee> resultData= new HashMap<Integer, Employee>();
+		for (Iterator<Entry<Integer, Employee>> iterator = k.iterator(); iterator.hasNext();) {
+			logger.info("Inside For Loop...");
+			Entry<Integer, Employee> entry = (Entry<Integer, Employee>) iterator.next();
+			System.out.println("Current Entry : " + entry);
+			System.out.println("Current Entry Values : " + entry.getValue());
+			if (String.valueOf(entry.getValue().getId()).contains(String.valueOf(id))) {
+				System.out.println("Got Matching entry for !!! = " + id);
+				System.out.println("Your Values" + entry.getValue());
+				resultData.put(entry.getKey(), entry.getValue());
+				logger.info("Collected Data!!!...");
+			}
+		}
+		System.out.println("#of Matches ::"+ resultData.size());
+		return resultData;
+	}
+	
+
 
 }
